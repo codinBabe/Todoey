@@ -24,10 +24,8 @@ app.post('/submit/work', (req, res) => {
     Works.push(newWork);
     res.redirect('/work');
 });
-app.post('/strike', (req, res) => {
-    const checked = req.body.check;
-    console.log(req.body)
-})
+
+
 app.get('/', (req, res) => {
 
     const todayDate = date.getDate();

@@ -57,7 +57,7 @@ input[type=text]:focus-visible{
     outline: none;
 }
 
-input[type=radio].checked::placeholder{
+.checked::placeholder{
     text-decoration: line-through;
 }
 

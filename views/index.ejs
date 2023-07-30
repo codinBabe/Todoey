@@ -7,8 +7,10 @@
             <form action="/submit" method="POST" class="box">
                 <% for( let i=0; i < task.length; i++ ) { %>
                     <div class="item">
-                        <input readonly type="text" name="<%= task[i] %>" placeholder="<%= task[i] %>">
-                        <input formaction="/strike" type="radio" class="form-check-input me-2" name="check">
+                        <input readonly type="text" name="<%= task[i] %>" placeholder="<%= task[i] %>"
+                            id="task<%= i %>">
+                        <input type="checkbox" class="form-check-input me-2" name="strike[]" value="<%= task[i] %>"
+                            data-task-index="<%= i %>" onclick="handleStrike(this)">
                     </div>
                     <% } %>
                         <div class="item">
@@ -19,8 +21,6 @@
                                     class="fa-solid fa-plus"></i></button>
                         </div>
             </form>
-
         </div>
     </main>
-
     <%- include('partials/footer.ejs') %>
