@@ -35,6 +35,7 @@ body{
 .item{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 1.5em;
     padding: 1em;
     border-radius: 10px;
@@ -46,6 +47,20 @@ body{
     font-weight: 900;
     color: #8D7B68;
 }
+input[type=text]{
+    border: none;
+    padding: .6em;
+    width: 100%;
+    box-sizing: border-box;
+}
+input[type=text]:focus-visible{
+    outline: none;
+}
+
+input[type=radio].checked::placeholder{
+    text-decoration: line-through;
+}
+
 .btn{
     background-color: #F1DEC9;
     border: none;  

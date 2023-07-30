@@ -4,20 +4,22 @@
             <h3 class="h3">
                 <%= locals.Today %>
             </h3>
-            <div class="box">
-                <div class="item">
-                    <p>Do chores</p>
-                    <input type="radio" class="form-check-input me-1" type="checkbox">
-                </div>
-                <div class="item">
-                    <p>Buy milk</p>
-                    <input type="radio" class="form-check-input me-2" type="checkbox">
-                </div>
-            </div>
-            <div class="btn-box">
-                <button type="submit" class="btn btn-info rounded-circle btn-lg"><i
-                        class="fa-solid fa-plus"></i></button>
-            </div>
+            <form action="/submit" method="POST" class="box">
+                <% for( let i=0; i < task.length; i++ ) { %>
+                    <div class="item">
+                        <input readonly type="text" name="<%= task[i] %>" placeholder="<%= task[i] %>">
+                        <input formaction="/strike" type="radio" class="form-check-input me-2" name="check">
+                    </div>
+                    <% } %>
+                        <div class="item">
+                            <input type="text" name="newtask" placeholder="Enter new item">
+                        </div>
+                        <div class="btn-box">
+                            <button type="submit" name="submit" class="btn btn-info rounded-circle btn-lg"><i
+                                    class="fa-solid fa-plus"></i></button>
+                        </div>
+            </form>
+
         </div>
     </main>
 
