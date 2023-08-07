@@ -3,4 +3,8 @@
 - This project is to solidfy my learning of Nodejs.
 - Frontend and Backend done by Oluwatoyin.
 ---
-- Handled creating a new todo and strike on home page, left with handling strike on work page and probably remove task
+- User can creat a new todo and strike out completed todos on home page.
+---
+![Todoey Home Page](./public/img/Todey%20Screenshot.png)
+---
+Left with handling the work page strike out and deleting completed task on both page.
