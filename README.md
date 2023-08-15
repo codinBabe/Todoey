@@ -5,6 +5,8 @@
 - Frontend and Backend done by Oluwatoyin.
 ---
 - User can create a new todo and also delete completed todos
+- User can create new route for new todos.
 ---
 ![Todoey Home Page](./public/img/Todey%20Screenshot.png)
 ---
+- To handle data manipulation in random route todo.

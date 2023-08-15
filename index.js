@@ -9,15 +9,11 @@ const port = 3000;
 mongoose.connect("mongodb://127.0.0.1:27017/todoeyDB");
 
 const date = new Date();
-const year = date.getFullYear();
 
 //Setup mongoose schema
 const tasksSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-})
+    name: String
+});
 const Tasks = mongoose.model("task", tasksSchema);
 const chores = new Tasks({
     name: "Do chores"
@@ -27,6 +23,13 @@ const buy = new Tasks({
     name: "Buy Milk"
 });
 const defaultArray = [chores, buy];
+
+//Schema for randomRoute
+const itemSchema = new mongoose.Schema({
+    name: String,
+    items: [tasksSchema]
+});
+const Items = mongoose.model("item", itemSchema);
 
 //Use bodyparser to get post request from frontend and 
 //express to render static files
@@ -41,23 +44,43 @@ app.get('/', async (req, res) => {
         const todayDay = date.getDay();
         const month = date.getMonth();
         const today = days[todayDay] + ", " + months[month] + " " + todayDate;
-
+        //Insert defaultArray if there is none before
         const task = await Tasks.find({});
         if (task.length === 0) {
             Tasks.insertMany(defaultArray);
             res.redirect('/');
         } else {
-            res.render('index.ejs', { Today: today, Year: year, task: task });
+            res.render('index.ejs', { Today: "Today", task: task });
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+//Get random route
+app.get('/:randomRoute', async (req, res) => {
+    try {
+        const randomRouteName = req.params.randomRoute;
+        const search = await Items.findOne({ name: randomRouteName });
+        if (!search) {
+            const randomRouteList = new Items({
+                name: randomRouteName,
+                items: defaultArray
+            });
+            randomRouteList.save();
+            res.redirect('/' + randomRouteName);
+        } else {
+            res.render('post.ejs', { Title: randomRouteName, newItems: search.items })
         }
     }
     catch (err) {
         console.log(err);
     }
 
-});
+})
 
 //Receive request from frontend and push to mongoose
-app.post('/submit', async (req, res) => {
+app.post('/', async (req, res) => {
     try {
         const newTask = req.body.newtask;
         const newTaskName = new Tasks({

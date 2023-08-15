@@ -1,3 +1,26 @@
 <%- include('partials/header.ejs') %>
-
+    <main class="container">
+        <h2>
+            <%= Title %>
+        </h2>
+        <% if (locals.newItems) { %>
+            <% newItems.forEach(todo=> {%>
+                <form action="/delete" method="post">
+                    <div class="item">
+                        <input readonly type="text" name="<%= todo.name %>" placeholder="<%= todo.name %>">
+                        <input type="checkbox" name="checkbox" value="<%=todo._id %>" onchange="this.form.submit()">
+                    </div>
+                </form>
+                <%}); %>
+                    <% } %>
+                        <form action="/" method="POST" class="box">
+                            <div class="item">
+                                <input type="text" name="newtask" placeholder="Enter new item">
+                            </div>
+                            <div class="btn-box">
+                                <button type="submit" name="submit" class="btn" value="<%= Title %>"><i
+                                        class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </form>
+    </main>
     <%- include('partials/footer.ejs') %>
