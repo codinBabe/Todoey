@@ -18,12 +18,12 @@
 Users should be able to:
 
 - Create new todos and delete completed todos.
-- Can create custom route.
-- Can add new todos and delete completed todos in custom route
+- Create custom route.
+- Add new todos and delete completed todos in custom route
 
 ### Screenshot
 
-![Mobile view]()
+![Mobile view](./public/img/mobile%20view.png)
 
 ![Desktop View](./public/img/Todey%20Screenshot.png)
 
@@ -40,7 +40,7 @@ Users should be able to:
 - Ejs
 - Nodejs
 - EXpress
-- Mongose
+- Mongoose
 - MongoDB
 
 ### What I learned
@@ -52,7 +52,6 @@ Users should be able to:
 Node.js
 MongoDb
 
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
 
 ### Useful resources
 
@@ -60,5 +59,4 @@ MongoDb
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
 - Twitter - [@techie_baker](https://twitter.com/techiebaker)
