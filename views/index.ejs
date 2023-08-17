@@ -2,7 +2,7 @@
 
     <main class="container">
         <h2>
-            <%= locals.Today %>
+            <%= locals.Title %>
         </h2>
         <% if (locals.task) { %>
             <% task.forEach(todo=> {%>
@@ -10,6 +10,7 @@
                     <div class="item">
                         <input readonly type="text" name="<%= todo.name %>" placeholder="<%= todo.name %>">
                         <input type="checkbox" name="checkbox" value="<%=todo._id %>" onchange="this.form.submit()">
+                        <input type="hidden" name="randomRouteTodo" value="<%= Title %>">
                     </div>
                 </form>
                 <%}); %>
@@ -19,7 +20,7 @@
                                 <input type="text" name="newtask" placeholder="Enter new item">
                             </div>
                             <div class="btn-box">
-                                <button type="submit" name="submit" class="btn"><i
+                                <button type="submit" name="randomRoute" value="<%= Title %>" class="btn"><i
                                         class="fa-solid fa-plus"></i></button>
                             </div>
                         </form>

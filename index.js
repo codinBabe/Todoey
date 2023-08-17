@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import _ from "lodash";
 
 const app = express();
 const port = 3000;
@@ -8,7 +9,15 @@ const port = 3000;
 //Connect to mongoose
 mongoose.connect("mongodb://127.0.0.1:27017/todoeyDB");
 
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+//Display Today in weekdays and date
 const date = new Date();
+const todayDate = date.getDate();
+const todayDay = date.getDay();
+const month = date.getMonth();
+const today = days[todayDay] + ", " + months[month] + " " + todayDate;
 
 //Setup mongoose schema
 const tasksSchema = new mongoose.Schema({
@@ -40,17 +49,13 @@ app.use(express.static("public"));
 app.get('/', async (req, res) => {
 
     try {
-        const todayDate = date.getDate();
-        const todayDay = date.getDay();
-        const month = date.getMonth();
-        const today = days[todayDay] + ", " + months[month] + " " + todayDate;
         //Insert defaultArray if there is none before
         const task = await Tasks.find({});
         if (task.length === 0) {
             Tasks.insertMany(defaultArray);
             res.redirect('/');
         } else {
-            res.render('index.ejs', { Today: "Today", task: task });
+            res.render('index.ejs', { Title: today, task: task });
         }
     }
     catch (err) {
@@ -60,7 +65,7 @@ app.get('/', async (req, res) => {
 //Get random route
 app.get('/:randomRoute', async (req, res) => {
     try {
-        const randomRouteName = req.params.randomRoute;
+        const randomRouteName = _.capitalize(req.params.randomRoute);
         const search = await Items.findOne({ name: randomRouteName });
         if (!search) {
             const randomRouteList = new Items({
@@ -70,7 +75,7 @@ app.get('/:randomRoute', async (req, res) => {
             randomRouteList.save();
             res.redirect('/' + randomRouteName);
         } else {
-            res.render('post.ejs', { Title: randomRouteName, newItems: search.items })
+            res.render('index.ejs', { Title: randomRouteName, task: search.items })
         }
     }
     catch (err) {
@@ -79,26 +84,46 @@ app.get('/:randomRoute', async (req, res) => {
 
 })
 
-//Receive request from frontend and push to mongoose
+//Create new todos
 app.post('/', async (req, res) => {
     try {
         const newTask = req.body.newtask;
+        const randomRouteTodo = req.body.randomRoute;
+
         const newTaskName = new Tasks({
             name: newTask
         });
-        await newTaskName.save();
-        res.redirect('/');
+        //Check if new todo is coming from home or custom route
+        if (randomRouteTodo === today) {
+            await newTaskName.save();
+            res.redirect('/');
+        } else {
+            const randomRouteList = await Items.findOne({ name: randomRouteTodo });
+            if (randomRouteList) {
+                randomRouteList.items.push(newTaskName);
+                randomRouteList.save();
+                res.redirect('/' + randomRouteTodo);
+            }
+        }
     }
     catch (err) {
         console.log(err);
     }
-
 });
+
+//Remove completed todos
 app.post('/delete', async (req, res) => {
     try {
         const checkedItemId = req.body.checkbox;
-        await Tasks.findByIdAndRemove(checkedItemId);
-        res.redirect('/');
+        const customRouteRem = req.body.randomRouteTodo;
+
+        if (customRouteRem === today) {
+            await Tasks.findByIdAndRemove(checkedItemId);
+            res.redirect('/');
+        } else {
+            await Items.findOneAndUpdate({ name: customRouteRem }, { $pull: { items: { _id: checkedItemId } } });
+            res.redirect('/' + customRouteRem);
+        }
     }
     catch (err) {
         console.log(err);
@@ -111,49 +136,3 @@ app.listen(port, () => {
 
 //mongoose.connection.close();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
