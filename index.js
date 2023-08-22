@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 //Connect to mongoose
-mongoose.connect("mongodb+srv://admin-toyin:toy-123@cluster0.yr00x3s.mongodb.net/todoeyDB");
+mongoose.connect("mongodb://127.0.0.1:27017/todoeyDB");
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -52,7 +52,7 @@ app.get('/', async (req, res) => {
         //Insert defaultArray if there is none before
         const task = await Tasks.find({});
         if (task.length === 0) {
-            Tasks.insertMany(defaultArray);
+            await Tasks.insertMany(defaultArray);
             res.redirect('/');
         } else {
             res.render('index.ejs', { Title: today, task: task });

@@ -39,7 +39,7 @@ Users should be able to:
 - Mobile-first workflow
 - Ejs
 - Nodejs
-- EXpress
+- Express
 - Mongoose
 - MongoDB
 
@@ -49,13 +49,13 @@ Users should be able to:
 - Express Router
 
 ### Continued development
-Node.js
-MongoDb
+- Node.js
+- MongoDb
 
 
 ### Useful resources
 
-- [Example resource 1](https://mongoosejs.com/docs/index.html) - Like they always say "RTFM". When trying out a new tools, the manual is always handy
+- [Example resource 1](https://mongoosejs.com/docs/index.html) - The mongoose documentation was really helpful.
 
 ## Author
 
